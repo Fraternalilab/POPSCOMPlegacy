@@ -1,4 +1,4 @@
-POPSCOMP: Analysis of biomolecular complex insterfaces
+POPSCOMP: Analysis of biomolecular complex interfaces
 ------------------------------------------------------
 POPSCOMP is a method to analyse complexes of proteins and/or nucleic acids.
 The interaction between the individual complex components is assessed by 
@@ -10,71 +10,71 @@ POPSCOMP applies the POPS* method.
 
 Usage
 -----
-        INPUT
-            -f|--inputFile <input list containing pdb file>  (either this or --unique option, default: void)
-            * Will process every entry in the file line by line. if --absPath is not specified, program will
-              assume it is a pdb code and look for the pdbCODE.ent file in the pdb directory (see --pdbDir).
-           -u|--unique <pdb id>                  (either this or --inputFile option, default: void)
-            * Will process a unique pdb file, behaving the same way as --inputFile.
-           -m|--domainFile <domain info>                     (optional processed PFAM domain info)
-            * Will replace chain information with domain information where matching.
-           -n|--maxNcomp <max. num. component>              (optional maximal number of components)
-            * Will replace chain information with domain information where matching.
-           -p|--popsPath <path to pops binary>           (optional, default: ./pops)
-            * Will use given path instead of ./pops when computing SASA using pops.
-           -c|--cache <directory where to put temporary files>   (optional, default: ./)
-            * popscomp generates temporary files and then removes them. Filenames begin with '.popscomp_'.
-              Use this option to specify where to place them.
-           -z|--zipped                       (optional, default: off)
-            * Will gunzip files in your pdb repository prior to parsing.
-           -d|--pdbDir <directory of pdbCODE.ent(.gz) pdb files> (optional, default: ./)
-            * Will look for pdb files in given directory instead of working directory if --absPath hasn't been
-              specified. Files should be named using the usual pdb format pdbCODE.ent(.gz).
-           --absPath                         (optional, default: off)
-            * Will use entries given either by --inputFile or --unique as full path to pdb files. overrides --pdbDir.
-        MODE
-            -c|--coarse                      (optional, default: off)
-            * Option to be given to pops. Will use only C-alpha atoms for SASA computation.
-            --rProbe <probe radius [A]>              (mode: optional, default: 1.4)
-            * Option to be given to pops. Will change the radius used for SASA computation.
-        OUTPUT
-           -o|--outputDir <output directory>            (optional, default: ./)
-            * Directory where the resulting files will be placed.
-            -a|--atomOut                         (optional, default: off)
-            * Option to be given to pops. Prints atom information.
-            -r|--residueOut                  (optional, default: off)
-            * Option to be given to pops. Prints residue information.
-            -t|--totalOut                    (optional, default: off)
-            * Will produce information for the total complex. Will be the default behaviour if nothing is specified.
-            --pairwiseOut are specified.
-           -s|--singleOut                    (optional, default: off)
-            * Will produce information for the single components (chains).
-           -w|--pairwiseOut                  (optional, default: off)
-            * Will produce information for the pairwise components (ex: chainA-chainB).
-           --diffOut                         (optional, default: off)
-            * Will compute the SASA difference for specified components (total, single, pairwise). Will output atom
-              and residue information if --atomOut or --residueOut are specified. This creates the .diff files.
-           --allOut                      (optional, default: off)
-            * Same as --atomOut --residueOut --totalOut --singleOut --pairwiseOut --diffOut.
-             INFO
-            -h|--help
-            * Shows this help and quits
+    INPUT
+        -f|--inputFile <input list containing pdb file>  (either this or --unique option, default: void)
+        * Will process every entry in the file line by line. if --absPath is not specified, program will
+          assume it is a pdb code and look for the pdbCODE.ent file in the pdb directory (see --pdbDir).
+       -u|--unique <pdb id>                  (either this or --inputFile option, default: void)
+        * Will process a unique pdb file, behaving the same way as --inputFile.
+       -m|--domainFile <domain info>                     (optional processed PFAM domain info)
+        * Will replace chain information with domain information where matching.
+       -n|--maxNcomp <max. num. component>              (optional maximal number of components)
+        * Will replace chain information with domain information where matching.
+       -p|--popsPath <path to pops binary>           (optional, default: ./pops)
+        * Will use given path instead of ./pops when computing SASA using pops.
+       -c|--cache <directory where to put temporary files>   (optional, default: ./)
+        * popscomp generates temporary files and then removes them. Filenames begin with '.popscomp_'.
+          Use this option to specify where to place them.
+       -z|--zipped                       (optional, default: off)
+        * Will gunzip files in your pdb repository prior to parsing.
+       -d|--pdbDir <directory of pdbCODE.ent(.gz) pdb files> (optional, default: ./)
+        * Will look for pdb files in given directory instead of working directory if --absPath hasn't been
+          specified. Files should be named using the usual pdb format pdbCODE.ent(.gz).
+       --absPath                         (optional, default: off)
+        * Will use entries given either by --inputFile or --unique as full path to pdb files. overrides --pdbDir.
+    MODE
+        -c|--coarse                      (optional, default: off)
+        * Option to be given to pops. Will use only C-alpha atoms for SASA computation.
+        --rProbe <probe radius [A]>              (mode: optional, default: 1.4)
+        * Option to be given to pops. Will change the radius used for SASA computation.
+	OUTPUT
+       -o|--outputDir <output directory>            (optional, default: ./)
+        * Directory where the resulting files will be placed.
+        -a|--atomOut                         (optional, default: off)
+        * Option to be given to pops. Prints atom information.
+        -r|--residueOut                  (optional, default: off)
+        * Option to be given to pops. Prints residue information.
+        -t|--totalOut                    (optional, default: off)
+        * Will produce information for the total complex. Will be the default behaviour if nothing is specified.
+        --pairwiseOut are specified.
+       -s|--singleOut                    (optional, default: off)
+        * Will produce information for the single components (chains).
+       -w|--pairwiseOut                  (optional, default: off)
+        * Will produce information for the pairwise components (ex: chainA-chainB).
+       --diffOut                         (optional, default: off)
+        * Will compute the SASA difference for specified components (total, single, pairwise). Will output atom
+          and residue information if --atomOut or --residueOut are specified. This creates the .diff files.
+       --allOut                      (optional, default: off)
+        * Same as --atomOut --residueOut --totalOut --singleOut --pairwiseOut --diffOut.
+         INFO
+        -h|--help
+        * Shows this help and quits
 
-		EXAMPLES
-          Suppose you have installed pops and popscompl.pl softwares in the ~/my_apps directory. You also have
-          a list of pdb ids stored in the file ~/my_list.txt and that the relative structure files are in the 
-          ~/my_rep/ directory in the usual pdb format (pdbCODE.ent). If they are zipped (pdbCODE.ent.gz), you
-          will want to add the --zipped option to the command line.
+	EXAMPLES
+      Suppose you have installed pops and popscompl.pl softwares in the ~/my_apps directory. You also have
+      a list of pdb ids stored in the file ~/my_list.txt and that the relative structure files are in the 
+      ~/my_rep/ directory in the usual pdb format (pdbCODE.ent). If they are zipped (pdbCODE.ent.gz), you
+      will want to add the --zipped option to the command line.
 
-		  If you want to compute the buried area in the total complex for each file:
-			#> ~/my_apps/popscompl.pl --popsPath ~/my_apps/pops --pdbDir ~/my_rep --inputFile ~/my_list.txt --diffOut
-	 
-		  If you want to look at the residues buried by pairwise interactions in your generated model ~/my_model.pdb:
-			#> ~/my_apps/popscompl.pl --popsPath ~/my_apps/pops --absPath -u ~/my_model.pdb --residueOut --diffOut --pairwiseOut
+	  If you want to compute the buried area in the total complex for each file:
+		#> ~/my_apps/popscompl.pl --popsPath ~/my_apps/pops --pdbDir ~/my_rep --inputFile ~/my_list.txt --diffOut
+ 
+	  If you want to look at the residues buried by pairwise interactions in your generated model ~/my_model.pdb:
+		#> ~/my_apps/popscompl.pl --popsPath ~/my_apps/pops --absPath -u ~/my_model.pdb --residueOut --diffOut --pairwiseOut
 
-		  If you want to know the exposure of every atom of every pdb file stored in ~/my_list considering each chain as a single
-		  element (ie not interacting with the rest of the complex) and store the results in the ~/exposure_data directory:
-			#> ~/my_apps/popscompl.pl --popsPath ~/my_apps/pops --pdbDir ~/my_rep --inputFile ~/my_list.txt --outputDir ~/exposure_data --singleOut --atomOut
+	  If you want to know the exposure of every atom of every pdb file stored in ~/my_list considering each chain as a single
+	  element (ie not interacting with the rest of the complex) and store the results in the ~/exposure_data directory:
+		#> ~/my_apps/popscompl.pl --popsPath ~/my_apps/pops --pdbDir ~/my_rep --inputFile ~/my_list.txt --outputDir ~/exposure_data --singleOut --atomOut
 
 
 References
@@ -104,6 +104,7 @@ should acknowledge its use by the following citation:
   Kleinjung, J. and Fraternali, F.
   POPSCOMP: an automated interaction analysis of biomolecular complexes.
   Nucleic Acids Research 33 (2005) W342-W346.
+
 
 Servers
 -------
