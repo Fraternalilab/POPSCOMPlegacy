@@ -1,0 +1,183 @@
+<?php
+/*============================================================================*/
+/* POPSCOMP website layout and functions                                      */
+/* (C) 2007 Jens Kleinjung, Franca Fraternali, Alessandro Pandini             */
+/*============================================================================*/
+
+$scriptdir = "/srv/www/htdocs/wiki/php";
+$wikibaseurl = "mathbio.nimr.mrc.ac.uk/wiki";
+
+/*___________________________________________________________________________*/
+/* post function */
+$popscomp_input = <<<EOF
+<br>
+<form method="post" enctype="multipart/form-data">
+<p>
+	Enter a PDB identifier:<br>
+	<input name="PDBID" value="" size="10" type="text"><br>
+	<br>
+	<i><b>OR</b></i> Upload file containing PDB file:<br>
+	<input name="PDBUP" value="" accept="*" size="50" type="file"><br>
+	<br>
+	If complex components are <i><b>not</b></i> delimited by 'TER',<br>
+	enter last atom number of each component (delimited by a space):<br>
+	<input type=\"text\" name=\"LASTATNUMS\" size=50><br>
+	<br>
+	'HETATM' residues to be calculated: enter residue names<br>
+	(delimited by space; only atoms C,N,O; no 'coarse grained'):<br>
+	<input type=\"text\" name=\"HETS\" size=50><br>
+	<br>
+	Coarse grained calculation <input name="RESONLY" value="1" type="checkbox"><br>
+	<br>
+	Output atomic areas  <input name="ATOMICOUT" value="1" type="checkbox"><br>
+	Output residue areas  <input name="RESOUT" value="1" type="checkbox"><br>
+	<br>
+</p>
+<p>
+	<input name="action" value="Submit" type="submit">
+	<input name="mbjob[method]" value="popscomp" type="hidden">
+	<a href="#Options">Help on Options</a>
+</p>
+</form>
+<br><br><hr>
+EOF;
+
+/*___________________________________________________________________________*/
+/* method description */
+$popscomp_desc = <<<EOF
+<p>
+	For information on the POPS method refer to the 
+	<a href="http://mathbio.nimr.mrc.ac.uk/wiki/POPS">POPS server</a>.<br>
+	POPSCOMP is a method to analyse the interaction of complex components by
+	calculating the accessible surface buried upon complex formation. An example for
+	an application of complex analysis is given in: 
+	<a href="#Fraternali_2002">Fraternali, F. and Cavallo, L. (2002)</a>.
+</p>
+<p>
+	Users publishing results obtained with the POPSCOMP server should acknowledge
+	its use by the following citation: 
+	<a href="#Kleinjung_2005">Kleinjung, J. and Fraternali, F. (2005)</a>.
+</p><hr>
+<p>
+	The complex components are expected to be separated by a 'TER' delimiter as 
+	defined in the PDB format. If that is not the case, use the text window provided 
+	above to enter the last atom number of each component.
+</p>
+<p>
+	Note that the computational load scales with n^2 (n: number of components) and 
+	analysis of large complexes can take several minutes to hours. POPS calculation 
+	will be performed on the first model only, if a structure file containing 
+	multiple models is chosen/uploaded.
+</p>
+<p>                                                                                                                     
+    After submission a holding page provides access to the result page.
+	Otherwise results (also of previous runs) can be accessed through the
+    <a href="http://$wikibaseurl/Online_Tools#Retrieve">Retrieve function</a>.
+</p>
+EOF;
+
+/*___________________________________________________________________________*/
+/* help on options */
+$popscomp_help_options = <<<EOF
+<br>
+<h2><a name="Options">Help on Options</a></h2>
+<dl>
+	<dt><b>PDB structure file</b></dt>
+	<dd>
+		Entering a PDB identifier (lower case or upper case without the extension
+		.pdb) in the first text window will automatically perform the POPS 
+		calculation on the corresponding structure. Uploading of structure files 
+		by the user can be performed by specifying the file path and name in the 
+		second text window.
+	</dd>
+	<dt><b>Last atom numbers</b></dt>
+	<dd>
+		An example input for a complex without 'TER' delimiters, consisting of components
+		A (atoms 1-75), B (atoms 76-132) and C (atoms 133-150):<br> 75 132 150 
+	</dd>
+	<dt><b>Heteroatom inclusion</b></dt>
+	<dd>
+		Some biomolecular complexes contain non-standard residues, for example antibiotics.
+		These are indicated as 'HETATM' in the PDB format and they are usually excluded 
+		from POPSCOMP calculations. Enter the residue name of each component to include 
+		into the field. Note that only atoms C,N,O are accepted and that no coarse-grained
+		calculation can be performed.
+	</dd>
+	<dt><b>Coarse grained</b></dt>
+	<dd>
+		Calculation of accessible surface area on residue level.
+	</dd>
+	<dt><b>Default output</b></dt>
+	<dd>
+		List of hydrophobic, hydrophilic and  total contributions to the accessible 
+		surface area of the entire molecule (all atoms), first model only.
+	</dd>
+	<dt><b>Output 'nan'</b></dt>
+	<dd>
+		In case the output area reads 'nan', one or several atoms overlap excessively, 
+		probably due to multiple atom specification or incorrect coordinates.
+	</dd>
+</dl>
+EOF;
+
+/*___________________________________________________________________________*/
+/* references */
+$popscomp_references = <<<EOF
+<br>
+<h2><a name="References">References</a></h2>
+<ol>
+	<li>
+		<a name="Fraternali_2002"></a>Fraternali, F. and Cavallo, L.<br>
+		Parameter optimized surfaces (POPS): analysis of key interactions and 
+		conformational changes in the ribosome.<br>
+		<i>Nucleic Acids Research</i> <b>30</b> (2002) 2950-2960. &nbsp;
+		<a href="http://nar.oupjournals.org/cgi/reprint/30/13/2950">reprint (PDF)</a>.
+	</li>
+	<p></p>
+	<li>
+		<a name="Cavallo_2003"></a>Cavallo, L., Kleinjung, J. and Fraternali, F.<br>
+		POPS: A fast algorithm for solvent accessible surface areas at atomic 
+		and residue level.<br>
+		<i>Nucleic Acids Research</i> <b>31</b> (2003) 3364-3366. &nbsp; 
+		<a href="http://nar.oxfordjournals.org/cgi/reprint/31/13/3364">reprint (PDF)</a>.
+	</li>
+	<p></p>
+	<li>
+		<a name="Kleinjung_2005"></a>Kleinjung, J. and Fraternali, F.<br>
+		POPSCOMP: an automated interaction analysis of biomolecular complexes.<br>
+		<i>Nucleic Acids Research</i> <b>33</b> (2005) W342-W346. &nbsp;
+		<a href="http://nar.oxfordjournals.org/cgi/reprint/33/suppl_2/W342">reprint (PDF)</a>.
+	</li>
+</ol>
+<br>
+EOF;
+
+/*___________________________________________________________________________*/
+/* page footer */
+$popscomp_footer = <<<EOF
+<hr>
+The POPSCOMP server was developed by Franca Fraternali, the POPSCOMP logo was designed 
+by Domenico Fraternali. &nbsp;
+<a href="mailto:franca.fraternali@kcl.ac.uk,jkleinj@nimr.mrc.ac.uk">Contact Authors</a>
+EOF;
+
+/*___________________________________________________________________________*/
+/* parse results to web page */
+function parse_results($jobid, $wwwdir)
+{
+	// parse POPSCOMP result
+	$myFile = $wwwdir . "/job/" . $jobid . "/result.html";
+	$output = file($myFile);
+
+	// append POPSCOMP output to result string
+	$resultstring .= join("<br>\n",$output);
+
+	return $resultstring;
+}
+
+function check_input($_FILES, $_POST)
+{
+	return false;
+}
+
+?>
