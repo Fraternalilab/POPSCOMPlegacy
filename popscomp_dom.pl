@@ -142,7 +142,6 @@ foreach $pdbid (@pdb_list) {
     print("\n=== PDB file '$query' ===\n");
     if ($zipped) {
 		$pdbid =~ s/\.gz//;
-		print "gunzip $query";
 		system("gunzip -c -f $query > ./$pdbid");
 		$query = "./$pdbid"; 
     }
