@@ -31,13 +31,13 @@ my %atom_hash = ();
 my %res_hash = ();
 my @pdb_list = ();
 
-# command line options
+# command line options #cache removed (anna). Default was set to same as default $outdir anyway, would rather create temp files in outdir than any random place scripts are run from.
+# Although a better option would probably be to create a new directory for temporary files.
 $popsOpt = "";
 $infile = "";
 $domInfile = "";
 $pops = "./pops";
 $outdir = ".";
-$cache = ".";
 $pdbdir = ".";
 $rProbe = 1.4;
 $atomOut = 0;
@@ -51,7 +51,6 @@ $singleOut = 0;
 $pairwiseOut = 0;
 $abs_path = "";
 $diffOut = 0;
-$outdir = "";
 $minNcomponents = 2;
 $maxNcomponents = 10;
 
@@ -94,7 +93,6 @@ if (&args()) {
 	print ERROR ("Error: Could not read command line arguments\n");
 	exit 1;
 };
-
 #_______________________________________
 # read PDB file ids
 if ($unique_id ne "") {
@@ -129,22 +127,23 @@ foreach $pdbid (@pdb_list) {
     if ($abs_path ne "") {
 		$query = $pdbid;
 		$pdbid = substr($query, rindex($query, "/") + 1);
-		$query=~ tr/A-Z/a-z/;
+		#$query=~ tr/A-Z/a-z/; #removed - if there are capitals in absolute file paths this causes problems (Anna).
     } else {
 		$pdbid =~ tr/A-Z/a-z/;
 		$query = $pdbdir . "/pdb" . $pdbid . ".ent";
 		if ($zipped) {
 			$query .= ".gz";
 		}
-		$query=~ tr/A-Z/a-z/;
+		#$query=~ tr/A-Z/a-z/; #removed - if there are capitals in file paths this causes problems (Anna).
     }
 
 	#_______________________________________
 	# PDB file
     print("\n=== PDB file '$query' ===\n");
-
+    print "zipped, $zipped";
     if ($zipped) {
 		$pdbid =~ s/\.gz//;
+		print "gunzip $query";
 		system("gunzip -c -f $query > ./$pdbid");
 		$query = "./$pdbid"; 
     }
@@ -165,14 +164,12 @@ foreach $pdbid (@pdb_list) {
 		print FAILLIST ("$pdbid\n");
 		next;
 	}
-
     # split PDB file into components
 	if (&parse_pdb()) {
 		print ERROR ("$pdbid: Skipping: Could not parse PDB file\n");
 		print FAILLIST ("$pdbid\n");
 		next;
 	}
-
 	# close PDB file
 	close(PDB);
 
@@ -193,7 +190,6 @@ foreach $pdbid (@pdb_list) {
 		print FAILLIST ("$pdbid\n");
 		next;
 	}
-
 	#_______________________________________
 	# calculate POPS difference between isolated and pairwise components
     if ($diffOut and ($totalOut or $pairwiseOut)) {
@@ -206,7 +202,7 @@ foreach $pdbid (@pdb_list) {
 
 	#_______________________________________
     # clean up    
-    system("rm -f $cache/*.pdb $cache/*.pdb1 $cache/*.pops");
+    system("rm -f $outdir/*.pops_pdb $outdir/*.pops_pdb1 $outdir/*.pops"); #changed extensions to remove .pops_pdb files to distinguish from any pdb files not produced as POPSCOMP temporary files (Anna).
     %atom_hash = ();
     %res_hash = ();
 
@@ -260,9 +256,6 @@ sub args
 			* Will replace chain information with domain information where matching.
 		   -p|--popsPath <path to pops binary>			 (optional, default: ./pops)
 			* Will use given path instead of ./pops when computing SASA using pops.
-		   -c|--cache <directory where to put temporary files>	 (optional, default: ./)
-			* popscomp generates temporary files and then removes them. Filenames begin with '.popscomp_'.
-			  Use this option to specify where to place them.
 		   -z|--zipped						 (optional, default: off)
 			* Will gunzip files in your pdb repository prior to parsing.
 		   -d|--pdbDir <directory of pdbCODE.ent(.gz) pdb files> (optional, default: ./)
@@ -319,7 +312,6 @@ sub args
 	# default option values
 	$pops = "./pops";
 	$outdir = ".";
-	$cache = ".";
 	$pdbdir = ".";
 	$rProbe = 1.4;
 
@@ -336,7 +328,6 @@ sub args
 		   'd|pdbDir=s'		=> \$pdbdir,
 		   'z|zipped'		=> \$zipped,
 		   'u|unique=s'		=> \$unique_id,
-		   'c|cache=s'		=> \$cache,
 		   'h|help'		=> \$help,
 		   't|totalOut'		=> \$totalOut,
 		   's|singleOut'	=> \$singleOut,
@@ -356,6 +347,12 @@ sub args
 		$singleOut = 1;
 		$pairwiseOut = 1;
 		$diffOut = 1;
+	}
+
+	#_______________________________________
+	# settings for option 'zipped'
+	if ($zipped) {
+		$zipped = 1; #Added Anna
 	}
 
 	#_______________________________________
@@ -536,14 +533,14 @@ sub parse_pdb
 	#_______________________________________
 	# open output files
 	# file for POPS output of total complex (all components)
-    open(PDBALL, "> $cache/popscomp.total.$pdbid")  || die "Error: Cannot create '$cache/popscomp.total.$pdbid'\n";
+    open(PDBALL, "> $outdir/popscomp.total.$pdbid.pops_pdb")  || die "Error: Cannot create '$outdir/popscomp.total.$pdbid.pops_pdb'\n"; #changed path to include $outdir (Anna)
 	# files for POPS output of individual components
 	for ($i = 0; $i <= $#components_name; ++ $i) {
         local *FILE;
 		$compsingleNames[$i] = "popscomp.single.$pdbid-$components_chain[$i].$components_name[$i]";
-        open(FILE, ">$cache/$compsingleNames[$i].pdb") || die "Error: Cannot create '$cache/$compsingleNames[$i].pdb'\n";
+        open(FILE, ">$outdir/$compsingleNames[$i].pops_pdb") || die "Error: Cannot create '$outdir/$compsingleNames[$i].pops_pdb'\n"; #changed path to include $outdir (Anna)
         push(@compsingleFileHandles, *FILE);
-		print("$cache/$compsingleNames[$i].pdb\n");
+		print("$outdir/$compsingleNames[$i].pops_pdb\n"); #changed path to include $outdir (Anna)
     }
 
 	#_______________________________________
@@ -609,8 +606,8 @@ sub gen_pairs
 			if (($components_entries[$i] > 0) && ($components_entries[$j] > 0)) {
 				local *FILE;
 				$comppairNames[$nPairFile] = "popscomp.pair.$pdbid-$components_chain[$i].$components_name[$i]:$components_chain[$j].$components_name[$j]";
-				system("cat $cache/$compsingleNames[$i].pdb $cache/$compsingleNames[$j].pdb > $cache/$comppairNames[$nPairFile].pdb");
-				print("$cache/$comppairNames[$nPairFile].pdb\n");
+				system("cat $outdir/$compsingleNames[$i].pops_pdb $outdir/$compsingleNames[$j].pops_pdb > $outdir/$comppairNames[$nPairFile].pops_pdb");  #changed path to include $outdir in path and .pops_pdb extension (to distinguish from .pdb input) (Anna) 
+				print("$outdir/$comppairNames[$nPairFile].pops_pdb\n"); #changed path to include $outdir in path and .pops_pdb extension (to distinguish from .pdb input) (Anna) 
 				++ $nPairFile;
 			}
 		}
@@ -623,8 +620,8 @@ sub gen_pairs
 sub pops_it
 {
     my ($pops, $filebase, $popsOpt, $pdbid) = @_;
-    my $in = "$cache/$filebase.pdb";
-    my $out = "$cache/$filebase.pops";
+    my $in = "$outdir/$filebase.pops_pdb"; #changed path to include $outdir in path and .pops_pdb extension (to distinguish from .pdb input) (Anna) 
+    my $out = "$outdir/$filebase.pops"; #changed path to include $outdir (Anna)
     my $POPSOUT;
 
     print ("$filebase\n");
@@ -790,7 +787,7 @@ sub calc_diffs
 		if ($components_entries[$i] > 0) {
 			$parse_atom = 1;
 			$parse_res = 1;
-			open (IN1, "$cache/$compsingleNames[$i].pops") || die "Error: Cannot open '$compsingleNames[$i].pops' for reading\n";
+			open (IN1, "$outdir/$compsingleNames[$i].pops") || die "Error: Cannot open '$compsingleNames[$i].pops' for reading\n"; #changed path to include $outdir (Anna)
 
 			while (<IN1>) {
 				#            1       2        3         4        5         6         7
@@ -812,17 +809,17 @@ sub calc_diffs
 
 	#_______________________________________
 	# read pairwise components and compute differences to single components
-	open($DIFFOUT, ">$cache/popscomp.$pdbid.all.diff") || die "Error: Cannot create 'popscomp.total.$pdbid.pdb'\n";
+	open($DIFFOUT, ">$outdir/popscomp.$pdbid.all.diff") || die "Error: Cannot create 'popscomp.total.$pdbid.pops_pdb'\n"; #changed path to include $outdir (Anna)
 
 	if ($totalOut) {
-		&compute_complex_diff("$cache/popscomp.total.$pdbid.pops", $DIFFOUT, "Total Complex");
+		&compute_complex_diff("$outdir/popscomp.total.$pdbid.pops", $DIFFOUT, "Total Complex"); #changed path to include $outdir (Anna)
 	}
 
 	if ($pairwiseOut) {
 		for ($i = 0; $i <= $#components_name; ++ $i) {
 			for ($j = $i+1; $j <= $#components_name; ++ $j) {
 				if (($components_entries[$i] > 0) && ($components_entries[$j] > 0)) {
-					&compute_complex_diff("$cache/$comppairNames[$nPairFile].pops", $DIFFOUT, "Complex $comppairNames[$nPairFile]");
+					&compute_complex_diff("$outdir/$comppairNames[$nPairFile].pops", $DIFFOUT, "Complex $comppairNames[$nPairFile]"); #changed path to include $outdir (Anna)
 					++ $nPairFile;
 				}
 			}
