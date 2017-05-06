@@ -14,54 +14,54 @@ Fraternali, F. and Cavallo, L. 2002 (see below).
 ## Usage
 ```
   INPUT
-        -f|--inputFile <input list containing pdb file>  (either this or --unique option, default: void)
-        * Will process every entry in the file line by line. if --absPath is not specified, program will
-          assume it is a pdb code and look for the pdbCODE.ent file in the pdb directory (see --pdbDir).
-       -u|--unique <pdb id>                  (either this or --inputFile option, default: void)
-        * Will process a unique pdb file, behaving the same way as --inputFile.
-       -m|--domainFile <domain info>                     (optional processed PFAM domain info)
-        * Will replace chain information with domain information where matching.
-       -n|--maxNcomp <max. num. component>              (optional maximal number of components)
-        * Will replace chain information with domain information where matching.
-       -p|--popsPath <path to pops binary>           (optional, default: ./pops)
-        * Will use given path instead of ./pops when computing SASA using pops.
-       -c|--cache <directory where to put temporary files>   (optional, default: ./)
-        * popscomp generates temporary files and then removes them. Filenames begin with '.popscomp_'.
-          Use this option to specify where to place them.
-       -z|--zipped                       (optional, default: off)
-        * Will gunzip files in your pdb repository prior to parsing.
-       -d|--pdbDir <directory of pdbCODE.ent(.gz) pdb files> (optional, default: ./)
-        * Will look for pdb files in given directory instead of working directory if --absPath hasn't been
-          specified. Files should be named using the usual pdb format pdbCODE.ent(.gz).
-       --absPath                         (optional, default: off)
-        * Will use entries given either by --inputFile or --unique as full path to pdb files. overrides --pdbDir.
+  -f|--inputFile <input list containing pdb file>  (either this or --unique option, default: void)
+    * Will process every entry in the file line by line. if --absPath is not specified, program will
+      assume it is a pdb code and look for the pdbCODE.ent file in the pdb directory (see --pdbDir).
+  -u|--unique <pdb id>                  (either this or --inputFile option, default: void)
+    * Will process a unique pdb file, behaving the same way as --inputFile.
+  -m|--domainFile <domain info>                     (optional processed PFAM domain info)
+    * Will replace chain information with domain information where matching.
+  -n|--maxNcomp <max. num. component>              (optional maximal number of components)
+    * Will replace chain information with domain information where matching.
+  -p|--popsPath <path to pops binary>           (optional, default: ./pops)
+    * Will use given path instead of ./pops when computing SASA using pops.
+  -c|--cache <directory where to put temporary files>   (optional, default: ./)
+    * popscomp generates temporary files and then removes them. Filenames begin with '.popscomp_'.
+      Use this option to specify where to place them.
+  -z|--zipped                       (optional, default: off)
+    * Will gunzip files in your pdb repository prior to parsing.
+  -d|--pdbDir <directory of pdbCODE.ent(.gz) pdb files> (optional, default: ./)
+    * Will look for pdb files in given directory instead of working directory if --absPath hasn't been
+      specified. Files should be named using the usual pdb format pdbCODE.ent(.gz).
+  --absPath                         (optional, default: off)
+    * Will use entries given either by --inputFile or --unique as full path to pdb files. overrides --pdbDir.
   MODE
-        -c|--coarse                      (optional, default: off)
-        * Option to be given to pops. Will use only C-alpha atoms for SASA computation.
-        --rProbe <probe radius [A]>              (mode: optional, default: 1.4)
-        * Option to be given to pops. Will change the radius used for SASA computation.
-	OUTPUT
-       -o|--outputDir <output directory>            (optional, default: ./)
-        * Directory where the resulting files will be placed.
-        -a|--atomOut                         (optional, default: off)
-        * Option to be given to pops. Prints atom information.
-        -r|--residueOut                  (optional, default: off)
-        * Option to be given to pops. Prints residue information.
-        -t|--totalOut                    (optional, default: off)
-        * Will produce information for the total complex. Will be the default behaviour if nothing is specified.
-        --pairwiseOut are specified.
-       -s|--singleOut                    (optional, default: off)
-        * Will produce information for the single components (chains).
-       -w|--pairwiseOut                  (optional, default: off)
-        * Will produce information for the pairwise components (ex: chainA-chainB).
-       --diffOut                         (optional, default: off)
-        * Will compute the SASA difference for specified components (total, single, pairwise). Will output atom
-          and residue information if --atomOut or --residueOut are specified. This creates the .diff files.
-       --allOut                      (optional, default: off)
-        * Same as --atomOut --residueOut --totalOut --singleOut --pairwiseOut --diffOut.
-         INFO
-        -h|--help
-        * Shows this help and quits
+  -c|--coarse                      (optional, default: off)
+    * Option to be given to pops. Will use only C-alpha atoms for SASA computation.
+  --rProbe <probe radius [A]>              (mode: optional, default: 1.4)
+    * Option to be given to pops. Will change the radius used for SASA computation.
+  OUTPUT
+  -o|--outputDir <output directory>            (optional, default: ./)
+    * Directory where the resulting files will be placed.
+  -a|--atomOut                         (optional, default: off)
+    * Option to be given to pops. Prints atom information.
+  -r|--residueOut                  (optional, default: off)
+    * Option to be given to pops. Prints residue information.
+  -t|--totalOut                    (optional, default: off)
+    * Will produce information for the total complex. Will be the default behaviour if nothing is specified.
+  --pairwiseOut are specified.
+  -s|--singleOut                    (optional, default: off)
+    * Will produce information for the single components (chains).
+  -w|--pairwiseOut                  (optional, default: off)
+    * Will produce information for the pairwise components (ex: chainA-chainB).
+  --diffOut                         (optional, default: off)
+    * Will compute the SASA difference for specified components (total, single, pairwise). Will output atom
+      and residue information if --atomOut or --residueOut are specified. This creates the .diff files.
+  --allOut                      (optional, default: off)
+    * Same as --atomOut --residueOut --totalOut --singleOut --pairwiseOut --diffOut.
+  INFO
+    -h|--help
+      * Shows this help and quits
 ```
 
 ## EXAMPLES
