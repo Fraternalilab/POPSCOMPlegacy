@@ -111,7 +111,7 @@ should acknowledge its use by the following citation:
 
 ## Code
 * [POPSCOMP code](https://github.com/jkleinj/POPSCOMP)
-* [Releases](https://github.com/jkleinj/POPSCOMP/releases)
+* [Latest Release](https://github.com/jkleinj/POPSCOMP/releases/latest)
 
 
 ## Contact
