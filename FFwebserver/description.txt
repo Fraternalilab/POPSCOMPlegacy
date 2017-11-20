@@ -1,0 +1,9 @@
+
+POPSCOMP is a method to analyse interactions between individual complex
+components of proteins and/or nucleic acids by calculating the solvent
+accessible surface area (SASA) buried upon complex formation.
+It is based on POPS*, which calculates SASAs of individual proteins and
+nucleic acid molecules at atomic (default) and residue (coarse-grained) level.
+The underlying heuristic algorithm of POPS* uses a geometric approximation
+to the shielding of atomic surface areas by nearest neighbour atoms.
+

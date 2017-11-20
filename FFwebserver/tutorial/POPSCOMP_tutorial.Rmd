@@ -1,0 +1,54 @@
+---
+title: "POPSCOMP Tutorial"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+This tutorial is a paractical guideline to the usage of POPSCOMP.
+POPSCOMP splits molecular complexes into components and computes the buried
+Solvent Accessible Surface Area (SASA).
+
+#_______________________________________________________________________________
+# Example 1. HRAS – RASGRP4 heterodimer
+
+## PDB entry: 6AXG
+- Chain A: RASGRP4
+- Chain B: HRAS
+- SNPs: G12, G13, T58, Q61, E63
+
+## POPSCOMP run
+- Go to the POPSCOMP server https://mathbio.crick.ac.uk/wiki/POPSCOMP
+- Fill 6AXG into the 'PDBidentifier' field
+- 'Submit' with default settings
+- After job completion, download the result file via the link 'POPSCOMP component difference output'
+
+
+#_______________________________________________________________________________
+# Example 2. ERBB2 (HER2) homodimer
+## PDB entry: 3RCD
+- Chain D: ERBB2
+- Chain B: ERBB2
+- SNPs: L755 (interface), V842
+
+## POPSCOMP run
+- Go to the POPSCOMP server https://mathbio.crick.ac.uk/wiki/POPSCOMP
+- Fill 3RCD into the 'PDBidentifier' field
+- 'Submit' with default settings
+- After job completion, download the result file via the link 'POPSCOMP component difference output'
+
+
+#_______________________________________________________________________________
+# Example 3. CBL – UbV.pCBL ubiquitin variant
+## PDB entry: 5O76
+Chain A: CBL
+Chain E: UbV.pCBL ubiquitin variant
+SNPs: Y371, R420
+
+## POPSCOMP run
+- Go to the POPSCOMP server https://mathbio.crick.ac.uk/wiki/POPSCOMP
+- Fill 5O76 into the 'PDBidentifier' field
+- 'Submit' with default settings
+- After job completion, download the result file via the link 'POPSCOMP component difference output'
+
+
