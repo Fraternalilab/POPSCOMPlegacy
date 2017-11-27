@@ -172,7 +172,14 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
-<p>This tutorial is a paractical guideline to the usage of POPSCOMP. POPSCOMP splits molecular complexes into components and computes the buried Solvent Accessible Surface Area (SASA).</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShiaW8zZCk7XG5gYGAifQ== -->
+<pre class="r"><code>library(bio3d);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>This tutorial is a paractical guideline to the usage of POPSCOMP. POPSCOMP splits molecular complexes into components and computes the buried Solvent Accessible Surface Area (SASA). POPSCOMP output is by default per-residue, because that level of resolution provides an overview without sacrificing local details. A per-atom output may be obtained by selecting the ‘POPSCOMP area per atom’ option. Conversely, a computation based solely on Calpha (for proteins) and phosphate P atoms (nucleic acids) is performed upon selection of ‘coarse-grained calculation’, which might be necessary for low-resolution structures. Here the user is guided through the analysis of three exemplary complexes.</p>
 <div id="section" class="section level1">
 <h1>_______________________________________________________________________________</h1>
 </div>
@@ -186,6 +193,47 @@ $(document).ready(function () {
 <li>SNPs: G12, G13, T58, Q61, E63</li>
 </ul>
 </div>
+<div id="load-structure" class="section level2">
+<h2>Load structure</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGRiLjZheGcgPSByZWFkLnBkYihcIjZheGdcIik7XG5gYGAifQ== -->
+<pre class="r"><code>pdb.6axg = read.pdb(&quot;6axg&quot;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICBOb3RlOiBBY2Nlc3Npbmcgb24tbGluZSBQREIgZmlsZVxuIn0= -->
+<pre><code>  Note: Accessing on-line PDB file</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGRiLjZheGc7XG5gYGAifQ== -->
+<pre class="r"><code>pdb.6axg;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gQ2FsbDogIHJlYWQucGRiKGZpbGUgPSBcIjZheGdcIilcblxuICAgVG90YWwgTW9kZWxzIzogMVxuICAgICBUb3RhbCBBdG9tcyM6IDIzMTY4LCAgWFlacyM6IDY5NTA0ICBDaGFpbnMjOiAxMiAgKHZhbHVlczogQSBCIEMgRCBFIEYgRyBIIEkgSiBLIEwpXG5cbiAgICAgUHJvdGVpbiBBdG9tcyM6IDIzMTY4ICAocmVzaWR1ZXMvQ2FscGhhIGF0b21zIzogMjkzNilcbiAgICAgTnVjbGVpYyBhY2lkIEF0b21zIzogMCAgKHJlc2lkdWVzL3Bob3NwaGF0ZSBhdG9tcyM6IDApXG5cbiAgICAgTm9uLXByb3RlaW4vbnVjbGVpYyBBdG9tcyM6IDAgIChyZXNpZHVlczogMClcbiAgICAgTm9uLXByb3RlaW4vbnVjbGVpYyByZXNpZCB2YWx1ZXM6IFsgbm9uZSBdXG5cbiAgIFByb3RlaW4gc2VxdWVuY2U6XG4gICAgICBMTEVLQ0lRU0ZEU0FHU0RITUxOTVZMQU1IU1dWTFBTQURMQUFSTExUU1lRS0RUUUVMUlJMUUlDSExWUllcbiAgICAgIFdMTVJIUEVWTUhRRFBRTEVFVklHUkZXQVRWQVJFR05TQVFSUkxHRFNTRExMRkRITEVUR0VMQVFITFRZTFxuICAgICAgRUZSU0ZRQUlUUFFETFJTWVZMUUdTVlJHQ1BBTEVHU1ZHTFNOU1ZTUldWUVZNVkxTUlBHUExRUkFRVkxEXG4gICAgICBLRklIVkFRUkxIUUxRTkZOVExNQVZUR0dMQ0hTQUlTUkxLRFNIQUhMU1BEU1QuLi48Y3V0Pi4uLklSUUhcblxuKyBhdHRyOiBhdG9tLCB4eXosIHNlcXJlcywgaGVsaXgsIHNoZWV0LFxuICAgICAgICBjYWxwaGEsIHJlbWFyaywgY2FsbFxuIn0= -->
+<pre><code>
+ Call:  read.pdb(file = &quot;6axg&quot;)
+
+   Total Models#: 1
+     Total Atoms#: 23168,  XYZs#: 69504  Chains#: 12  (values: A B C D E F G H I J K L)
+
+     Protein Atoms#: 23168  (residues/Calpha atoms#: 2936)
+     Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+
+     Non-protein/nucleic Atoms#: 0  (residues: 0)
+     Non-protein/nucleic resid values: [ none ]
+
+   Protein sequence:
+      LLEKCIQSFDSAGSDHMLNMVLAMHSWVLPSADLAARLLTSYQKDTQELRRLQICHLVRY
+      WLMRHPEVMHQDPQLEEVIGRFWATVAREGNSAQRRLGDSSDLLFDHLETGELAQHLTYL
+      EFRSFQAITPQDLRSYVLQGSVRGCPALEGSVGLSNSVSRWVQVMVLSRPGPLQRAQVLD
+      KFIHVAQRLHQLQNFNTLMAVTGGLCHSAISRLKDSHAHLSPDST...&lt;cut&gt;...IRQH
+
++ attr: atom, xyz, seqres, helix, sheet,
+        calpha, remark, call</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGUucGRiKHBkYiA9IHBkYi42YXhnLCBmaWxlID0gXCI2QVhHLnBkYlwiKTtcbmBgYCJ9 -->
+<pre class="r"><code>write.pdb(pdb = pdb.6axg, file = &quot;6AXG.pdb&quot;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
 <div id="popscomp-run" class="section level2">
 <h2>POPSCOMP run</h2>
 <ul>
@@ -194,6 +242,17 @@ $(document).ready(function () {
 <li>‘Submit’ with default settings</li>
 <li>After job completion, download the result file via the link ‘POPSCOMP component difference output’</li>
 </ul>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="total-complex" class="section level3">
+<h3>Total Complex</h3>
+<p>The ‘Total Complex’ output lists the per-residue SASA differences between all isolated chains and the uploaded input structure as a whole. Only residues with non-zero differences are listed.</p>
+</div>
+<div id="complex-popscomp.pair-" class="section level3">
+<h3>Complex popscomp.pair-…</h3>
+<p>The ‘popscomp.pair-…’ output lists the per-residue SASA differences between two isolated chains and their pairwise configuration extracted from the uploaded input structure.</p>
+</div>
 </div>
 </div>
 <div id="section-1" class="section level1">
@@ -208,6 +267,47 @@ $(document).ready(function () {
 <li>Chain B: ERBB2</li>
 <li>SNPs: L755 (interface), V842</li>
 </ul>
+</div>
+<div id="load-structure-1" class="section level2">
+<h2>Load structure</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGRiLjNyY2QgPSByZWFkLnBkYihcIjNyY2RcIik7XG5gYGAifQ== -->
+<pre class="r"><code>pdb.3rcd = read.pdb(&quot;3rcd&quot;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICBOb3RlOiBBY2Nlc3Npbmcgb24tbGluZSBQREIgZmlsZVxuIn0= -->
+<pre><code>  Note: Accessing on-line PDB file</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGRiLjNyY2Q7XG5gYGAifQ== -->
+<pre class="r"><code>pdb.3rcd;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gQ2FsbDogIHJlYWQucGRiKGZpbGUgPSBcIjNyY2RcIilcblxuICAgVG90YWwgTW9kZWxzIzogMVxuICAgICBUb3RhbCBBdG9tcyM6IDg5NzAsICBYWVpzIzogMjY5MTAgIENoYWlucyM6IDQgICh2YWx1ZXM6IEEgQiBDIEQpXG5cbiAgICAgUHJvdGVpbiBBdG9tcyM6IDg4NjAgIChyZXNpZHVlcy9DYWxwaGEgYXRvbXMjOiAxMTA0KVxuICAgICBOdWNsZWljIGFjaWQgQXRvbXMjOiAwICAocmVzaWR1ZXMvcGhvc3BoYXRlIGF0b21zIzogMClcblxuICAgICBOb24tcHJvdGVpbi9udWNsZWljIEF0b21zIzogMTEwICAocmVzaWR1ZXM6IDM2KVxuICAgICBOb24tcHJvdGVpbi9udWNsZWljIHJlc2lkIHZhbHVlczogWyAwM1AgKDIpLCBIT0ggKDM0KSBdXG5cbiAgIFByb3RlaW4gc2VxdWVuY2U6XG4gICAgICBBTExSSUxLRVRFTFJLVktWTEdTR0FGR1RWWUtHSVdJUERHRU5WS0lQVkFJS1ZMUlBLQU5LRUlMREVBWVZcbiAgICAgIE1BR1ZHU1BZVlNSTExHSUNMVFNUVlFMVlRRTE1QWUdDTExESFZSRU5SR1JMR1NRRExMTldDTVFJQUtHTVxuICAgICAgU1lMRURWUkxWSFJETEFBUk5WTFZLU1BOSFZLSVRERkdMVlBJS1dNQUxFU0lMUlJSRlRIUVNEVldTWUdWXG4gICAgICBUVldFTE1URkdBS1BZREdJUEFSRUlQRExMRUtHRVJMUFFQUElDVElEVllNSU0uLi48Y3V0Pi4uLlNMTEVcblxuKyBhdHRyOiBhdG9tLCB4eXosIHNlcXJlcywgaGVsaXgsIHNoZWV0LFxuICAgICAgICBjYWxwaGEsIHJlbWFyaywgY2FsbFxuIn0= -->
+<pre><code>
+ Call:  read.pdb(file = &quot;3rcd&quot;)
+
+   Total Models#: 1
+     Total Atoms#: 8970,  XYZs#: 26910  Chains#: 4  (values: A B C D)
+
+     Protein Atoms#: 8860  (residues/Calpha atoms#: 1104)
+     Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+
+     Non-protein/nucleic Atoms#: 110  (residues: 36)
+     Non-protein/nucleic resid values: [ 03P (2), HOH (34) ]
+
+   Protein sequence:
+      ALLRILKETELRKVKVLGSGAFGTVYKGIWIPDGENVKIPVAIKVLRPKANKEILDEAYV
+      MAGVGSPYVSRLLGICLTSTVQLVTQLMPYGCLLDHVRENRGRLGSQDLLNWCMQIAKGM
+      SYLEDVRLVHRDLAARNVLVKSPNHVKITDFGLVPIKWMALESILRRRFTHQSDVWSYGV
+      TVWELMTFGAKPYDGIPAREIPDLLEKGERLPQPPICTIDVYMIM...&lt;cut&gt;...SLLE
+
++ attr: atom, xyz, seqres, helix, sheet,
+        calpha, remark, call</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGUucGRiKHBkYiA9IHBkYi4zcmNkLCBmaWxlID0gXCI2UkNELnBkYlwiKTtcbmBgYCJ9 -->
+<pre class="r"><code>write.pdb(pdb = pdb.3rcd, file = &quot;6RCD.pdb&quot;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 <div id="popscomp-run-1" class="section level2">
 <h2>POPSCOMP run</h2>
@@ -228,6 +328,48 @@ $(document).ready(function () {
 <h2>PDB entry: 5O76</h2>
 <p>Chain A: CBL Chain E: UbV.pCBL ubiquitin variant SNPs: Y371, R420</p>
 </div>
+<div id="load-structure-2" class="section level2">
+<h2>Load structure</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGRiLjVvNzYgPSByZWFkLnBkYihcIjVvNzZcIik7XG5gYGAifQ== -->
+<pre class="r"><code>pdb.5o76 = read.pdb(&quot;5o76&quot;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICBOb3RlOiBBY2Nlc3Npbmcgb24tbGluZSBQREIgZmlsZVxuICAgUERCIGhhcyBBTFQgcmVjb3JkcywgdGFraW5nIEEgb25seSwgcm0uYWx0PVRSVUVcbiJ9 -->
+<pre><code>  Note: Accessing on-line PDB file
+   PDB has ALT records, taking A only, rm.alt=TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGRiLjVvNzY7XG5gYGAifQ== -->
+<pre class="r"><code>pdb.5o76;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG4gQ2FsbDogIHJlYWQucGRiKGZpbGUgPSBcIjVvNzZcIilcblxuICAgVG90YWwgTW9kZWxzIzogMVxuICAgICBUb3RhbCBBdG9tcyM6IDk0MzAsICBYWVpzIzogMjgyOTAgIENoYWlucyM6IDYgICh2YWx1ZXM6IEEgQiBDIEQgRSBGKVxuXG4gICAgIFByb3RlaW4gQXRvbXMjOiA5MTg5ICAocmVzaWR1ZXMvQ2FscGhhIGF0b21zIzogOTM1KVxuICAgICBOdWNsZWljIGFjaWQgQXRvbXMjOiAwICAocmVzaWR1ZXMvcGhvc3BoYXRlIGF0b21zIzogMClcblxuICAgICBOb24tcHJvdGVpbi9udWNsZWljIEF0b21zIzogMjQxICAocmVzaWR1ZXM6IDI0MSlcbiAgICAgTm9uLXByb3RlaW4vbnVjbGVpYyByZXNpZCB2YWx1ZXM6IFsgQ0EgKDIpLCBIT0ggKDIzNSksIFpOICg0KSBdXG5cbiAgIFByb3RlaW4gc2VxdWVuY2U6XG4gICAgICBUVkRLS01WRUtDV0tMTURLVlZSTENRTlBLTEFMS05TUFBZSUxETExQRFRZUUhMUlRJTFNSWUVHS01FVExcbiAgICAgIEdFTkVZRlJWRk1FTkxNS0tUS1FUSVNMRktFR0tFUk1ZRUVOU1FQUlJOTFRLTFNMSUZTSE1MQUVMS0dJRlxuICAgICAgUFNHTEZRR0RURlJJVEtBREFBRUZXUktBRkdFS1RJVlBXS1NGUlFBTEhFVkhQSVNTR0xFQU1BTEtTVElEXG4gICAgICBMVENORFlJU1ZGRUZESUZUUkxGUVBXU1NMTFJOV05TTEFWVEhQR1lNQUZMVFkuLi48Y3V0Pi4uLkxWTFJcblxuKyBhdHRyOiBhdG9tLCB4eXosIHNlcXJlcywgaGVsaXgsIHNoZWV0LFxuICAgICAgICBjYWxwaGEsIHJlbWFyaywgY2FsbFxuIn0= -->
+<pre><code>
+ Call:  read.pdb(file = &quot;5o76&quot;)
+
+   Total Models#: 1
+     Total Atoms#: 9430,  XYZs#: 28290  Chains#: 6  (values: A B C D E F)
+
+     Protein Atoms#: 9189  (residues/Calpha atoms#: 935)
+     Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+
+     Non-protein/nucleic Atoms#: 241  (residues: 241)
+     Non-protein/nucleic resid values: [ CA (2), HOH (235), ZN (4) ]
+
+   Protein sequence:
+      TVDKKMVEKCWKLMDKVVRLCQNPKLALKNSPPYILDLLPDTYQHLRTILSRYEGKMETL
+      GENEYFRVFMENLMKKTKQTISLFKEGKERMYEENSQPRRNLTKLSLIFSHMLAELKGIF
+      PSGLFQGDTFRITKADAAEFWRKAFGEKTIVPWKSFRQALHEVHPISSGLEAMALKSTID
+      LTCNDYISVFEFDIFTRLFQPWSSLLRNWNSLAVTHPGYMAFLTY...&lt;cut&gt;...LVLR
+
++ attr: atom, xyz, seqres, helix, sheet,
+        calpha, remark, call</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGUucGRiKHBkYiA9IHBkYi41bzc2LCBmaWxlID0gXCI1Tzc2LnBkYlwiKTtcbmBgYCJ9 -->
+<pre class="r"><code>write.pdb(pdb = pdb.5o76, file = &quot;5O76.pdb&quot;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
 <div id="popscomp-run-2" class="section level2">
 <h2>POPSCOMP run</h2>
 <ul>
@@ -240,7 +382,7 @@ $(document).ready(function () {
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUE9QU0NPTVAgVHV0b3JpYWwiCm91dHB1dDoKICBodG1sX2RvY3VtZW50OiBkZWZhdWx0CiAgaHRtbF9ub3RlYm9vazogZGVmYXVsdAotLS0KClRoaXMgdHV0b3JpYWwgaXMgYSBwYXJhY3RpY2FsIGd1aWRlbGluZSB0byB0aGUgdXNhZ2Ugb2YgUE9QU0NPTVAuClBPUFNDT01QIHNwbGl0cyBtb2xlY3VsYXIgY29tcGxleGVzIGludG8gY29tcG9uZW50cyBhbmQgY29tcHV0ZXMgdGhlIGJ1cmllZApTb2x2ZW50IEFjY2Vzc2libGUgU3VyZmFjZSBBcmVhIChTQVNBKS4KCiNfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCiMgRXhhbXBsZSAxLiBIUkFTIOKAkyBSQVNHUlA0IGhldGVyb2RpbWVyCgojIyBQREIgZW50cnk6IDZBWEcKLSBDaGFpbiBBOiBSQVNHUlA0Ci0gQ2hhaW4gQjogSFJBUwotIFNOUHM6IEcxMiwgRzEzLCBUNTgsIFE2MSwgRTYzCgojIyBQT1BTQ09NUCBydW4KLSBHbyB0byB0aGUgUE9QU0NPTVAgc2VydmVyIGh0dHBzOi8vbWF0aGJpby5jcmljay5hYy51ay93aWtpL1BPUFNDT01QCi0gRmlsbCA2QVhHIGludG8gdGhlICdQREJpZGVudGlmaWVyJyBmaWVsZAotICdTdWJtaXQnIHdpdGggZGVmYXVsdCBzZXR0aW5ncwotIEFmdGVyIGpvYiBjb21wbGV0aW9uLCBkb3dubG9hZCB0aGUgcmVzdWx0IGZpbGUgdmlhIHRoZSBsaW5rICdQT1BTQ09NUCBjb21wb25lbnQgZGlmZmVyZW5jZSBvdXRwdXQnCgoKI19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KIyBFeGFtcGxlIDIuIEVSQkIyIChIRVIyKSBob21vZGltZXIKIyMgUERCIGVudHJ5OiAzUkNECi0gQ2hhaW4gRDogRVJCQjIKLSBDaGFpbiBCOiBFUkJCMgotIFNOUHM6IEw3NTUgKGludGVyZmFjZSksIFY4NDIKCiMjIFBPUFNDT01QIHJ1bgotIEdvIHRvIHRoZSBQT1BTQ09NUCBzZXJ2ZXIgaHR0cHM6Ly9tYXRoYmlvLmNyaWNrLmFjLnVrL3dpa2kvUE9QU0NPTVAKLSBGaWxsIDNSQ0QgaW50byB0aGUgJ1BEQmlkZW50aWZpZXInIGZpZWxkCi0gJ1N1Ym1pdCcgd2l0aCBkZWZhdWx0IHNldHRpbmdzCi0gQWZ0ZXIgam9iIGNvbXBsZXRpb24sIGRvd25sb2FkIHRoZSByZXN1bHQgZmlsZSB2aWEgdGhlIGxpbmsgJ1BPUFNDT01QIGNvbXBvbmVudCBkaWZmZXJlbmNlIG91dHB1dCcKCgojX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwojIEV4YW1wbGUgMy4gQ0JMIOKAkyBVYlYucENCTCB1YmlxdWl0aW4gdmFyaWFudAojIyBQREIgZW50cnk6IDVPNzYKQ2hhaW4gQTogQ0JMCkNoYWluIEU6IFViVi5wQ0JMIHViaXF1aXRpbiB2YXJpYW50ClNOUHM6IFkzNzEsIFI0MjAKCiMjIFBPUFNDT01QIHJ1bgotIEdvIHRvIHRoZSBQT1BTQ09NUCBzZXJ2ZXIgaHR0cHM6Ly9tYXRoYmlvLmNyaWNrLmFjLnVrL3dpa2kvUE9QU0NPTVAKLSBGaWxsIDVPNzYgaW50byB0aGUgJ1BEQmlkZW50aWZpZXInIGZpZWxkCi0gJ1N1Ym1pdCcgd2l0aCBkZWZhdWx0IHNldHRpbmdzCi0gQWZ0ZXIgam9iIGNvbXBsZXRpb24sIGRvd25sb2FkIHRoZSByZXN1bHQgZmlsZSB2aWEgdGhlIGxpbmsgJ1BPUFNDT01QIGNvbXBvbmVudCBkaWZmZXJlbmNlIG91dHB1dCcKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUE9QU0NPTVAgVHV0b3JpYWwiCm91dHB1dDoKICBodG1sX25vdGVib29rOiBkZWZhdWx0CiAgaHRtbF9kb2N1bWVudDogZGVmYXVsdAotLS0KCmBgYHtyfQpsaWJyYXJ5KGJpbzNkKTsKYGBgCgpUaGlzIHR1dG9yaWFsIGlzIGEgcGFyYWN0aWNhbCBndWlkZWxpbmUgdG8gdGhlIHVzYWdlIG9mIFBPUFNDT01QLgpQT1BTQ09NUCBzcGxpdHMgbW9sZWN1bGFyIGNvbXBsZXhlcyBpbnRvIGNvbXBvbmVudHMgYW5kIGNvbXB1dGVzIHRoZSBidXJpZWQKU29sdmVudCBBY2Nlc3NpYmxlIFN1cmZhY2UgQXJlYSAoU0FTQSkuClBPUFNDT01QIG91dHB1dCBpcyBieSBkZWZhdWx0IHBlci1yZXNpZHVlLCBiZWNhdXNlIHRoYXQgbGV2ZWwgb2YgcmVzb2x1dGlvbiBwcm92aWRlcwphbiBvdmVydmlldyB3aXRob3V0IHNhY3JpZmljaW5nIGxvY2FsIGRldGFpbHMuIEEgcGVyLWF0b20gb3V0cHV0IG1heSBiZSBvYnRhaW5lZApieSBzZWxlY3RpbmcgdGhlICdQT1BTQ09NUCBhcmVhIHBlciBhdG9tJyBvcHRpb24uIENvbnZlcnNlbHksIGEgY29tcHV0YXRpb24gYmFzZWQKc29sZWx5IG9uIENhbHBoYSAoZm9yIHByb3RlaW5zKSBhbmQgcGhvc3BoYXRlIFAgYXRvbXMgKG51Y2xlaWMgYWNpZHMpIGlzIHBlcmZvcm1lZAp1cG9uIHNlbGVjdGlvbiBvZiAnY29hcnNlLWdyYWluZWQgY2FsY3VsYXRpb24nLCB3aGljaCBtaWdodCBiZSBuZWNlc3NhcnkgZm9yCmxvdy1yZXNvbHV0aW9uIHN0cnVjdHVyZXMuCkhlcmUgdGhlIHVzZXIgaXMgZ3VpZGVkIHRocm91Z2ggdGhlIGFuYWx5c2lzIG9mIHRocmVlIGV4ZW1wbGFyeSBjb21wbGV4ZXMuCgoKI19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KIyBFeGFtcGxlIDEuIEhSQVMg4oCTIFJBU0dSUDQgaGV0ZXJvZGltZXIKCiMjIFBEQiBlbnRyeTogNkFYRwotIENoYWluIEE6IFJBU0dSUDQKLSBDaGFpbiBCOiBIUkFTCi0gU05QczogRzEyLCBHMTMsIFQ1OCwgUTYxLCBFNjMKCiMjIExvYWQgc3RydWN0dXJlCmBgYHtyfQpwZGIuNmF4ZyA9IHJlYWQucGRiKCI2YXhnIik7CnBkYi42YXhnOwp3cml0ZS5wZGIocGRiID0gcGRiLjZheGcsIGZpbGUgPSAiNkFYRy5wZGIiKTsKYGBgCgojIyBQT1BTQ09NUCBydW4KLSBHbyB0byB0aGUgUE9QU0NPTVAgc2VydmVyIGh0dHBzOi8vbWF0aGJpby5jcmljay5hYy51ay93aWtpL1BPUFNDT01QCi0gRmlsbCA2QVhHIGludG8gdGhlICdQREJpZGVudGlmaWVyJyBmaWVsZAotICdTdWJtaXQnIHdpdGggZGVmYXVsdCBzZXR0aW5ncwotIEFmdGVyIGpvYiBjb21wbGV0aW9uLCBkb3dubG9hZCB0aGUgcmVzdWx0IGZpbGUgdmlhIHRoZSBsaW5rICdQT1BTQ09NUCBjb21wb25lbnQgZGlmZmVyZW5jZSBvdXRwdXQnCgojIyBBbmFseXNpcwoKIyMjIFRvdGFsIENvbXBsZXgKVGhlICdUb3RhbCBDb21wbGV4JyBvdXRwdXQgbGlzdHMgdGhlIHBlci1yZXNpZHVlIFNBU0EgZGlmZmVyZW5jZXMgYmV0d2VlbiBhbGwgaXNvbGF0ZWQgY2hhaW5zCmFuZCB0aGUgdXBsb2FkZWQgaW5wdXQgc3RydWN0dXJlIGFzIGEgd2hvbGUuCk9ubHkgcmVzaWR1ZXMgd2l0aCBub24temVybyBkaWZmZXJlbmNlcyBhcmUgbGlzdGVkLgoKIyMjIENvbXBsZXggcG9wc2NvbXAucGFpci0uLi4KVGhlICdwb3BzY29tcC5wYWlyLS4uLicgb3V0cHV0IGxpc3RzIHRoZSBwZXItcmVzaWR1ZSBTQVNBIGRpZmZlcmVuY2VzIGJldHdlZW4gdHdvIGlzb2xhdGVkIGNoYWlucwphbmQgdGhlaXIgcGFpcndpc2UgY29uZmlndXJhdGlvbiBleHRyYWN0ZWQgZnJvbSB0aGUgdXBsb2FkZWQgaW5wdXQgc3RydWN0dXJlLgoKCiNfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCiMgRXhhbXBsZSAyLiBFUkJCMiAoSEVSMikgaG9tb2RpbWVyCiMjIFBEQiBlbnRyeTogM1JDRAotIENoYWluIEQ6IEVSQkIyCi0gQ2hhaW4gQjogRVJCQjIKLSBTTlBzOiBMNzU1IChpbnRlcmZhY2UpLCBWODQyCgojIyBMb2FkIHN0cnVjdHVyZQpgYGB7cn0KcGRiLjNyY2QgPSByZWFkLnBkYigiM3JjZCIpOwpwZGIuM3JjZDsKd3JpdGUucGRiKHBkYiA9IHBkYi4zcmNkLCBmaWxlID0gIjZSQ0QucGRiIik7CmBgYAoKIyMgUE9QU0NPTVAgcnVuCi0gR28gdG8gdGhlIFBPUFNDT01QIHNlcnZlciBodHRwczovL21hdGhiaW8uY3JpY2suYWMudWsvd2lraS9QT1BTQ09NUAotIEZpbGwgM1JDRCBpbnRvIHRoZSAnUERCaWRlbnRpZmllcicgZmllbGQKLSAnU3VibWl0JyB3aXRoIGRlZmF1bHQgc2V0dGluZ3MKLSBBZnRlciBqb2IgY29tcGxldGlvbiwgZG93bmxvYWQgdGhlIHJlc3VsdCBmaWxlIHZpYSB0aGUgbGluayAnUE9QU0NPTVAgY29tcG9uZW50IGRpZmZlcmVuY2Ugb3V0cHV0JwoKCiNfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCiMgRXhhbXBsZSAzLiBDQkwg4oCTIFViVi5wQ0JMIHViaXF1aXRpbiB2YXJpYW50CiMjIFBEQiBlbnRyeTogNU83NgpDaGFpbiBBOiBDQkwKQ2hhaW4gRTogVWJWLnBDQkwgdWJpcXVpdGluIHZhcmlhbnQKU05QczogWTM3MSwgUjQyMAoKIyMgTG9hZCBzdHJ1Y3R1cmUKYGBge3J9CnBkYi41bzc2ID0gcmVhZC5wZGIoIjVvNzYiKTsKcGRiLjVvNzY7CndyaXRlLnBkYihwZGIgPSBwZGIuNW83NiwgZmlsZSA9ICI1Tzc2LnBkYiIpOwpgYGAKCiMjIFBPUFNDT01QIHJ1bgotIEdvIHRvIHRoZSBQT1BTQ09NUCBzZXJ2ZXIgaHR0cHM6Ly9tYXRoYmlvLmNyaWNrLmFjLnVrL3dpa2kvUE9QU0NPTVAKLSBGaWxsIDVPNzYgaW50byB0aGUgJ1BEQmlkZW50aWZpZXInIGZpZWxkCi0gJ1N1Ym1pdCcgd2l0aCBkZWZhdWx0IHNldHRpbmdzCi0gQWZ0ZXIgam9iIGNvbXBsZXRpb24sIGRvd25sb2FkIHRoZSByZXN1bHQgZmlsZSB2aWEgdGhlIGxpbmsgJ1BPUFNDT01QIGNvbXBvbmVudCBkaWZmZXJlbmNlIG91dHB1dCcKCgo=</div>
 
 
 

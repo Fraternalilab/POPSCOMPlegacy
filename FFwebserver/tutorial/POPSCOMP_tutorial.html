@@ -120,7 +120,8 @@ $(document).ready(function () {
 </div>
 
 
-<p>This tutorial is a paractical guideline to the usage of POPSCOMP. POPSCOMP splits molecular complexes into components and computes the buried Solvent Accessible Surface Area (SASA).</p>
+<pre class="r"><code>library(bio3d);</code></pre>
+<p>This tutorial is a paractical guideline to the usage of POPSCOMP. POPSCOMP splits molecular complexes into components and computes the buried Solvent Accessible Surface Area (SASA). POPSCOMP output is by default per-residue, because that level of resolution provides an overview without sacrificing local details. A per-atom output may be obtained by selecting the ‘POPSCOMP area per atom’ option. Conversely, a computation based solely on Calpha (for proteins) and phosphate P atoms (nucleic acids) is performed upon selection of ‘coarse-grained calculation’, which might be necessary for low-resolution structures. Here the user is guided through the analysis of three exemplary complexes by using the defult settings.</p>
 <div id="section" class="section level1">
 <h1>_______________________________________________________________________________</h1>
 </div>
@@ -134,6 +135,33 @@ $(document).ready(function () {
 <li>SNPs: G12, G13, T58, Q61, E63</li>
 </ul>
 </div>
+<div id="visualise-structure" class="section level2">
+<h2>Visualise structure</h2>
+<pre class="r"><code>pdb.6axg = read.pdb(&quot;6axg&quot;);</code></pre>
+<pre><code>##   Note: Accessing on-line PDB file</code></pre>
+<pre class="r"><code>pdb.6axg;</code></pre>
+<pre><code>## 
+##  Call:  read.pdb(file = &quot;6axg&quot;)
+## 
+##    Total Models#: 1
+##      Total Atoms#: 23168,  XYZs#: 69504  Chains#: 12  (values: A B C D E F G H I J K L)
+## 
+##      Protein Atoms#: 23168  (residues/Calpha atoms#: 2936)
+##      Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+## 
+##      Non-protein/nucleic Atoms#: 0  (residues: 0)
+##      Non-protein/nucleic resid values: [ none ]
+## 
+##    Protein sequence:
+##       LLEKCIQSFDSAGSDHMLNMVLAMHSWVLPSADLAARLLTSYQKDTQELRRLQICHLVRY
+##       WLMRHPEVMHQDPQLEEVIGRFWATVAREGNSAQRRLGDSSDLLFDHLETGELAQHLTYL
+##       EFRSFQAITPQDLRSYVLQGSVRGCPALEGSVGLSNSVSRWVQVMVLSRPGPLQRAQVLD
+##       KFIHVAQRLHQLQNFNTLMAVTGGLCHSAISRLKDSHAHLSPDST...&lt;cut&gt;...IRQH
+## 
+## + attr: atom, xyz, seqres, helix, sheet,
+##         calpha, remark, call</code></pre>
+<pre class="r"><code>write.pdb(pdb = pdb.6axg, file = &quot;6AXG.pdb&quot;);</code></pre>
+</div>
 <div id="popscomp-run" class="section level2">
 <h2>POPSCOMP run</h2>
 <ul>
@@ -142,6 +170,17 @@ $(document).ready(function () {
 <li>‘Submit’ with default settings</li>
 <li>After job completion, download the result file via the link ‘POPSCOMP component difference output’</li>
 </ul>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="total-complex" class="section level3">
+<h3>Total Complex</h3>
+<p>The ‘Total Complex’ output lists the per-residue SASA differences between all isolated chains and the uploaded input structure as a whole. Only residues with non-zero differences are listed.</p>
+</div>
+<div id="complex-popscomp.pair-" class="section level3">
+<h3>Complex popscomp.pair-…</h3>
+<p>The ‘popscomp.pair-…’ output lists the per-residue SASA differences between two isolated chains and their pairwise configuration extracted from the uploaded input structure.</p>
+</div>
 </div>
 </div>
 <div id="section-1" class="section level1">
@@ -156,6 +195,33 @@ $(document).ready(function () {
 <li>Chain B: ERBB2</li>
 <li>SNPs: L755 (interface), V842</li>
 </ul>
+</div>
+<div id="visualise-structure-1" class="section level2">
+<h2>Visualise structure</h2>
+<pre class="r"><code>pdb.3rcd = read.pdb(&quot;3rcd&quot;);</code></pre>
+<pre><code>##   Note: Accessing on-line PDB file</code></pre>
+<pre class="r"><code>pdb.3rcd;</code></pre>
+<pre><code>## 
+##  Call:  read.pdb(file = &quot;3rcd&quot;)
+## 
+##    Total Models#: 1
+##      Total Atoms#: 8970,  XYZs#: 26910  Chains#: 4  (values: A B C D)
+## 
+##      Protein Atoms#: 8860  (residues/Calpha atoms#: 1104)
+##      Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+## 
+##      Non-protein/nucleic Atoms#: 110  (residues: 36)
+##      Non-protein/nucleic resid values: [ 03P (2), HOH (34) ]
+## 
+##    Protein sequence:
+##       ALLRILKETELRKVKVLGSGAFGTVYKGIWIPDGENVKIPVAIKVLRPKANKEILDEAYV
+##       MAGVGSPYVSRLLGICLTSTVQLVTQLMPYGCLLDHVRENRGRLGSQDLLNWCMQIAKGM
+##       SYLEDVRLVHRDLAARNVLVKSPNHVKITDFGLVPIKWMALESILRRRFTHQSDVWSYGV
+##       TVWELMTFGAKPYDGIPAREIPDLLEKGERLPQPPICTIDVYMIM...&lt;cut&gt;...SLLE
+## 
+## + attr: atom, xyz, seqres, helix, sheet,
+##         calpha, remark, call</code></pre>
+<pre class="r"><code>write.pdb(pdb = pdb.3rcd, file = &quot;6RCD.pdb&quot;);</code></pre>
 </div>
 <div id="popscomp-run-1" class="section level2">
 <h2>POPSCOMP run</h2>
@@ -175,6 +241,34 @@ $(document).ready(function () {
 <div id="pdb-entry-5o76" class="section level2">
 <h2>PDB entry: 5O76</h2>
 <p>Chain A: CBL Chain E: UbV.pCBL ubiquitin variant SNPs: Y371, R420</p>
+</div>
+<div id="visualise-structure-2" class="section level2">
+<h2>Visualise structure</h2>
+<pre class="r"><code>pdb.5o76 = read.pdb(&quot;5o76&quot;);</code></pre>
+<pre><code>##   Note: Accessing on-line PDB file
+##    PDB has ALT records, taking A only, rm.alt=TRUE</code></pre>
+<pre class="r"><code>pdb.5o76;</code></pre>
+<pre><code>## 
+##  Call:  read.pdb(file = &quot;5o76&quot;)
+## 
+##    Total Models#: 1
+##      Total Atoms#: 9430,  XYZs#: 28290  Chains#: 6  (values: A B C D E F)
+## 
+##      Protein Atoms#: 9189  (residues/Calpha atoms#: 935)
+##      Nucleic acid Atoms#: 0  (residues/phosphate atoms#: 0)
+## 
+##      Non-protein/nucleic Atoms#: 241  (residues: 241)
+##      Non-protein/nucleic resid values: [ CA (2), HOH (235), ZN (4) ]
+## 
+##    Protein sequence:
+##       TVDKKMVEKCWKLMDKVVRLCQNPKLALKNSPPYILDLLPDTYQHLRTILSRYEGKMETL
+##       GENEYFRVFMENLMKKTKQTISLFKEGKERMYEENSQPRRNLTKLSLIFSHMLAELKGIF
+##       PSGLFQGDTFRITKADAAEFWRKAFGEKTIVPWKSFRQALHEVHPISSGLEAMALKSTID
+##       LTCNDYISVFEFDIFTRLFQPWSSLLRNWNSLAVTHPGYMAFLTY...&lt;cut&gt;...LVLR
+## 
+## + attr: atom, xyz, seqres, helix, sheet,
+##         calpha, remark, call</code></pre>
+<pre class="r"><code>write.pdb(pdb = pdb.5o76, file = &quot;5O76.pdb&quot;);</code></pre>
 </div>
 <div id="popscomp-run-2" class="section level2">
 <h2>POPSCOMP run</h2>

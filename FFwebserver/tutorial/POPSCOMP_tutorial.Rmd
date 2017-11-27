@@ -1,13 +1,25 @@
 ---
 title: "POPSCOMP Tutorial"
 output:
-  html_document: default
   html_notebook: default
+  html_document: default
 ---
+
+```{r}
+library(bio3d);
+```
 
 This tutorial is a paractical guideline to the usage of POPSCOMP.
 POPSCOMP splits molecular complexes into components and computes the buried
 Solvent Accessible Surface Area (SASA).
+POPSCOMP output is by default per-residue, because that level of resolution provides
+an overview without sacrificing local details. A per-atom output may be obtained
+by selecting the 'POPSCOMP area per atom' option. Conversely, a computation based
+solely on Calpha (for proteins) and phosphate P atoms (nucleic acids) is performed
+upon selection of 'coarse-grained calculation', which might be necessary for
+low-resolution structures.
+Here the user is guided through the analysis of three exemplary complexes.
+
 
 #_______________________________________________________________________________
 # Example 1. HRAS – RASGRP4 heterodimer
@@ -17,11 +29,29 @@ Solvent Accessible Surface Area (SASA).
 - Chain B: HRAS
 - SNPs: G12, G13, T58, Q61, E63
 
+## Load structure
+```{r}
+pdb.6axg = read.pdb("6axg");
+pdb.6axg;
+write.pdb(pdb = pdb.6axg, file = "6AXG.pdb");
+```
+
 ## POPSCOMP run
 - Go to the POPSCOMP server https://mathbio.crick.ac.uk/wiki/POPSCOMP
 - Fill 6AXG into the 'PDBidentifier' field
 - 'Submit' with default settings
 - After job completion, download the result file via the link 'POPSCOMP component difference output'
+
+## Analysis
+
+### Total Complex
+The 'Total Complex' output lists the per-residue SASA differences between all isolated chains
+and the uploaded input structure as a whole.
+Only residues with non-zero differences are listed.
+
+### Complex popscomp.pair-...
+The 'popscomp.pair-...' output lists the per-residue SASA differences between two isolated chains
+and their pairwise configuration extracted from the uploaded input structure.
 
 
 #_______________________________________________________________________________
@@ -30,6 +60,13 @@ Solvent Accessible Surface Area (SASA).
 - Chain D: ERBB2
 - Chain B: ERBB2
 - SNPs: L755 (interface), V842
+
+## Load structure
+```{r}
+pdb.3rcd = read.pdb("3rcd");
+pdb.3rcd;
+write.pdb(pdb = pdb.3rcd, file = "6RCD.pdb");
+```
 
 ## POPSCOMP run
 - Go to the POPSCOMP server https://mathbio.crick.ac.uk/wiki/POPSCOMP
@@ -44,6 +81,13 @@ Solvent Accessible Surface Area (SASA).
 Chain A: CBL
 Chain E: UbV.pCBL ubiquitin variant
 SNPs: Y371, R420
+
+## Load structure
+```{r}
+pdb.5o76 = read.pdb("5o76");
+pdb.5o76;
+write.pdb(pdb = pdb.5o76, file = "5O76.pdb");
+```
 
 ## POPSCOMP run
 - Go to the POPSCOMP server https://mathbio.crick.ac.uk/wiki/POPSCOMP

@@ -1,0 +1,6 @@
+Resid	Chain	ResidNr	Phobic	Philic	Total	N(overlaps)
+GLY	B	6	0.00	0.51	0.50	0
+THR	B	8	0.05	0.00	0.05	0
+PRO	B	9	23.18	0.02	23.21	0
+ASN	C	144	0.23	0.37	0.60	0
+LYS	C	283	8.57	1.69	10.26	0
