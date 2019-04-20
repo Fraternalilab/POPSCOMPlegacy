@@ -1,4 +1,8 @@
-# POPSCOMP: Analysis of biomolecular complex interfaces
+# POPSCOMP: Analysis of biomolecular complex interface
+
+Notice: The *POPSCOMP* repository and program has been replaced by the
+*POPScomp* repository since April 2019.
+
 POPSCOMP is a method to analyse complexes of proteins and/or nucleic acids.
 The interaction between the individual complex components is assessed by 
 calculating the solvent accessible surface area (SASA) buried upon complex
