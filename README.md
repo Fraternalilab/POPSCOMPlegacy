@@ -1,9 +1,7 @@
 # POPSCOMP: Analysis of biomolecular complex interface
 
-```
-Notice: The *POPSCOMP* repository and program has been replaced by the
-*POPScomp* repository since April 2019.
-```
+## Notice: Please got to the new [POPScomp](https://github.com/Fraternalilab/POPScomp) repository. 
+This *POPSCOMPlegacy* repository and program is outdated since April 2019.
 
 POPSCOMP is a method to analyse complexes of proteins and/or nucleic acids.
 The interaction between the individual complex components is assessed by 
